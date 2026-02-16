@@ -19,7 +19,7 @@ const baseThickness = 4;
 
 export const TicTacToeBoard = () => {
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();
-  const { board } = useTicTacToeStore();
+  const { board, currentPlayer, passTurn } = useTicTacToeStore();
   const { navigate } = useNavigation();
 
   const { boardSize, cellSize, t, v1, v2, h1, h2 } = useMemo(() => {
@@ -35,15 +35,20 @@ export const TicTacToeBoard = () => {
     return { boardSize, cellSize, t, v1, v2, h1, h2 };
   }, [screenWidth, screenHeight]);
 
-  const handleCellPress = useCallback((index: number) => {
-    // console.log(`Cell ${index} pressed`);
-    // navigate("GameResult", { result: "lose" });
-  }, []);
+  const handleCellPress = useCallback(
+    (index: number) => {
+      board[index] = currentPlayer;
+
+      passTurn();
+    },
+    [board, currentPlayer, passTurn],
+  );
 
   const renderCell = useCallback(
     ({ item, index }: ListRenderItemInfo<TicTacToeCellType>) => {
       return (
         <Pressable
+          disabled={currentPlayer !== "X"}
           onPress={() => handleCellPress(index)}
           style={[
             styles.cell,
@@ -57,7 +62,7 @@ export const TicTacToeBoard = () => {
         </Pressable>
       );
     },
-    [cellSize, handleCellPress],
+    [cellSize, currentPlayer, handleCellPress],
   );
 
   return (
@@ -94,6 +99,7 @@ export const TicTacToeBoard = () => {
         keyExtractor={(_, index) => index.toString()}
         numColumns={3}
         renderItem={renderCell}
+        scrollEnabled={false}
         style={{ position: "absolute" }}
       />
     </View>
@@ -106,6 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   cellText: {
-    fontSize: 48,
+    fontSize: 72,
+    fontWeight: "bold",
   },
 });
