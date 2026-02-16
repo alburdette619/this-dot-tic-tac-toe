@@ -14,14 +14,15 @@ import { TicTacToeCellType } from "../../../types/ticTacToeTypes";
 import { TicTacToeBoardLine } from "./TicTacToeBoardLine";
 
 const lineDelay = 80;
+const baseThickness = 4;
 
 export const TicTacToeBoard = () => {
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();
   const { board, currentPlayer, winner, isDraw } = useTicTacToeStore();
 
   const { boardSize, cellSize, t, v1, v2, h1, h2 } = useMemo(() => {
-    const boardSize = Math.min(screenWidth, screenHeight) * 0.8;
-    const t = Math.max(2, Math.round(boardSize / 180));
+    const boardSize = Math.min(screenWidth, screenHeight) * 0.9;
+    const t = Math.max(baseThickness, Math.round(boardSize / 180));
     const cellSize = boardSize / 3;
 
     const v1 = cellSize - t / 2;

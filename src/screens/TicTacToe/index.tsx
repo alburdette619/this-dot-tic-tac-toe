@@ -13,6 +13,7 @@ export const TicTacToe = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+    backgroundColor: "#735AFE",
     flex: 1,
     justifyContent: "center",
   },
