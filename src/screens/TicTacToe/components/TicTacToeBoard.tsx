@@ -18,7 +18,7 @@ const baseThickness = 4;
 
 export const TicTacToeBoard = () => {
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();
-  const { board, currentPlayer, winner, isDraw } = useTicTacToeStore();
+  const { board } = useTicTacToeStore();
 
   const { boardSize, cellSize, t, v1, v2, h1, h2 } = useMemo(() => {
     const boardSize = Math.min(screenWidth, screenHeight) * 0.9;

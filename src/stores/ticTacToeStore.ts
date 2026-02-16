@@ -7,14 +7,17 @@ import {
 
 export interface TicTacToeState {
   board: TicTacToeBoardType;
-  currentPlayer: TicTacToePlayerSymbol;
+  currentPlayer: TicTacToePlayerSymbol | null;
   winner: TicTacToePlayerSymbol | null;
   isDraw: boolean;
+  setCurrentPlayer: (player: TicTacToePlayerSymbol) => void;
 }
 
-export const useTicTacToeStore = create<TicTacToeState>((_set) => ({
+export const useTicTacToeStore = create<TicTacToeState>((set) => ({
   board: Array(9).fill(null),
-  currentPlayer: "X",
+  currentPlayer: null,
   winner: null,
   isDraw: false,
+  setCurrentPlayer: (player: TicTacToePlayerSymbol) =>
+    set({ currentPlayer: player }),
 }));
