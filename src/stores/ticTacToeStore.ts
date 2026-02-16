@@ -10,14 +10,20 @@ export interface TicTacToeState {
   currentPlayer: TicTacToePlayerSymbol | null;
   winner: TicTacToePlayerSymbol | null;
   isDraw: boolean;
+  resetStore: () => void;
   setCurrentPlayer: (player: TicTacToePlayerSymbol) => void;
 }
 
-export const useTicTacToeStore = create<TicTacToeState>((set) => ({
+const defaultState: Omit<TicTacToeState, "resetStore" | "setCurrentPlayer"> = {
   board: Array(9).fill(null),
   currentPlayer: null,
   winner: null,
   isDraw: false,
+};
+
+export const useTicTacToeStore = create<TicTacToeState>((set) => ({
+  ...defaultState,
+  resetStore: () => set({ ...defaultState }),
   setCurrentPlayer: (player: TicTacToePlayerSymbol) =>
     set({ currentPlayer: player }),
 }));
