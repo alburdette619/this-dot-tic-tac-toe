@@ -106,3 +106,11 @@ To avoid doing the largest minimax search at the start of a game, the algorithm 
 - continues with minimax afterward
 
 This keeps the computer's first turn feeling instant while remaining optimal.
+
+---
+
+## TODO
+
+- More tests. Reanimated makes testing a bit complex on the screen but utils also needs coverage.
+- Fix issue where we're mutating the board as the user clicks. We have to initialize it specifically in reset.
+- Add a splash screen.

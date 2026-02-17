@@ -57,6 +57,7 @@ export const TicTacToeBoard = () => {
               width: cellSize,
             },
           ]}
+          testID={`tic-tac-toe-cell-${item}${index}`}
         >
           <Text style={styles.cellText}>{item ?? ""}</Text>
         </Pressable>

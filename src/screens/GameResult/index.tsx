@@ -4,9 +4,9 @@ import { useCallback, useMemo } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { useTicTacToeStore } from "../stores/ticTacToeStore";
-import { cardStyles } from "../styles/cards";
-import { Colors } from "../styles/colors";
+import { useTicTacToeStore } from "../../stores/ticTacToeStore";
+import { cardStyles } from "../../styles/cards";
+import { Colors } from "../../styles/colors";
 
 export const GameResult = () => {
   const { goBack } = useNavigation();
@@ -16,18 +16,18 @@ export const GameResult = () => {
   const { animation, resultText } = useMemo(() => {
     if (isDraw) {
       return {
-        animation: require("../../assets/lottie/draw.json"),
+        animation: require("../../../assets/lottie/draw.json"),
         resultText: "It's a Draw!",
       };
     } else {
       return winner === "X"
         ? {
-            animation: require("../../assets/lottie/you-win.json"),
+            animation: require("../../../assets/lottie/you-win.json"),
             resultText:
               "You Win! (this should have been impossible... congrats I guess?)",
           }
         : {
-            animation: require("../../assets/lottie/game-over.json"),
+            animation: require("../../../assets/lottie/game-over.json"),
             resultText: "You Lose!",
           };
     }
