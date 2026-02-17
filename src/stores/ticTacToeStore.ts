@@ -37,7 +37,6 @@ export const useTicTacToeStore = create<TicTacToeStore>((set, get) => ({
     const { board } = get();
     const aiMove = getBestMove(board);
 
-    console.log("AI Move:", aiMove, board);
     if (aiMove !== null) {
       set((state) => {
         const newBoard = [...state.board];

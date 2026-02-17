@@ -21,9 +21,7 @@ export const TicTacToe = () => {
   // to get the latest state when the worklet runs.
   const getState = useTicTacToeStore.getState;
 
-  console.log("Current Player:", currentPlayer, board, winner, isDraw);
-
-  const maybeAiFirstMove = useCallback(() => {
+  const maybeMakeAiFirstMove = useCallback(() => {
     const { currentPlayer: currentPlayerInWorklet, makeAiMove } = getState();
 
     if (currentPlayerInWorklet === "O" && isFirstMove) {
@@ -41,12 +39,11 @@ export const TicTacToe = () => {
   const handlePlayerChoiceFadeOut = useCallback(
     (finished: boolean) => {
       "worklet";
-      console.log("Player choice fade out finished:", finished);
       if (finished) {
-        scheduleOnRN(maybeAiFirstMove);
+        scheduleOnRN(maybeMakeAiFirstMove);
       }
     },
-    [maybeAiFirstMove],
+    [maybeMakeAiFirstMove],
   );
 
   useEffect(() => {
