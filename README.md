@@ -28,7 +28,41 @@ React Native + Expo implementation of a single-player Tic Tac Toe game with an *
 
 ---
 
-## Getting started
+## Installing the Preview Builds
+
+To skip the pain of building locally, preview builds have been created through EAS. These builds are valid for 90 days from 02/17/2026.
+
+### Android
+
+[Build Link](https://expo.dev/accounts/alburdet619/projects/ThisDotTicTacToe/builds/ef014b11-f058-40b0-aacb-6d7ffb6eea66)
+
+**OR** scan the QR Code
+
+<img src="./assets//github//android-build.png" width="200">
+
+**To install**
+
+- Download the app from the link above.
+- Search your phone's settings for "unknown apps" (you may have to briefly turn off "Advanced Protection").
+- Click on the app in your file explorer, let Android scan the app, and install.
+- Open and enjoy!
+
+### iOS
+
+Note that iOS can only be run on the simulator due to Apple restrictions.
+
+[Build Link](https://expo.dev/artifacts/eas/vw5e1ei4xNn1BDUU4eoEiY.tar.gz)
+
+**To install**
+
+- Download the archived app via the link above.
+- Unarchive the app.
+- Start an iOS simulator and drag the app file onto the simulator.
+- Open and enjoy!
+
+---
+
+## Building locally
 
 ### Prerequisites
 
