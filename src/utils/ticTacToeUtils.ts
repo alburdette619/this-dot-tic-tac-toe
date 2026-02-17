@@ -14,6 +14,8 @@ const WIN_LINES: number[][] = [
   [2, 4, 6],
 ];
 
+const OPTIMAL_FIRST_MOVES = [0, 2, 4, 6, 8];
+
 export const getWinner = (
   board: TicTacToeBoardType,
 ): TicTacToePlayerSymbol | null => {
@@ -89,6 +91,12 @@ export const getBestMove = (
   ai: TicTacToePlayerSymbol = "O",
   human: TicTacToePlayerSymbol = "X",
 ): number | null => {
+  // If the board is empty, just take the middle. No need to run the minimax algorithm.
+  if (board.every((c) => c === null))
+    return OPTIMAL_FIRST_MOVES[
+      Math.floor(Math.random() * OPTIMAL_FIRST_MOVES.length)
+    ];
+
   if (getWinner(board) || board.every((c) => c !== null)) {
     return null;
   }

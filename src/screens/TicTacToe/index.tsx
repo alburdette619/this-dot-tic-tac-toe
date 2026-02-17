@@ -1,26 +1,68 @@
-import { useCallback } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useCallback, useEffect } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, { FadeOut } from "react-native-reanimated";
+import { scheduleOnRN } from "react-native-worklets";
 
 import { useTicTacToeStore } from "../../stores/ticTacToeStore";
 import { cardStyles } from "../../styles/cards";
 import { TicTacToeBoard } from "./components/TicTacToeBoard";
 
 export const TicTacToe = () => {
-  const { currentPlayer, winner, isDraw, setCurrentPlayer } =
+  const { navigate } = useNavigation();
+
+  const { board, currentPlayer, winner, isDraw, startGame } =
     useTicTacToeStore();
+  const isFirstMove = board.every((cell) => cell === null);
+
+  // We need to access the store state in the `maybeAiFirstMove` worklet, but worklets capture,
+  // so we need to get the state in the component scope and then reference it in the worklet.
+  // Creating a reference to `getState` here allows us to call `getState()` in the worklet
+  // to get the latest state when the worklet runs.
+  const getState = useTicTacToeStore.getState;
+
+  console.log("Current Player:", currentPlayer, board, winner, isDraw);
+
+  const maybeAiFirstMove = useCallback(() => {
+    const { currentPlayer: currentPlayerInWorklet, makeAiMove } = getState();
+
+    if (currentPlayerInWorklet === "O" && isFirstMove) {
+      makeAiMove();
+    }
+  }, [getState, isFirstMove]);
 
   const handleFirstPlayerChoice = useCallback(
     (symbol: "X" | "O") => {
-      setCurrentPlayer(symbol);
+      startGame(symbol);
     },
-    [setCurrentPlayer],
+    [startGame],
   );
+
+  const handlePlayerChoiceFadeOut = useCallback(
+    (finished: boolean) => {
+      "worklet";
+      console.log("Player choice fade out finished:", finished);
+      if (finished) {
+        scheduleOnRN(maybeAiFirstMove);
+      }
+    },
+    [maybeAiFirstMove],
+  );
+
+  useEffect(() => {
+    if (winner || isDraw) {
+      navigate("GameResult");
+    }
+  }, [isDraw, navigate, winner]);
 
   return (
     <View style={styles.container}>
       {currentPlayer === null ? (
-        <Animated.View exiting={FadeOut}>
+        // Handle Ai first move AFTER the fade out animation completes to avoid
+        // the first 'O' move appearing before the player choice fades out.
+        <Animated.View
+          exiting={FadeOut.withCallback(handlePlayerChoiceFadeOut)}
+        >
           <Text style={styles.playerChoiceText}>Who Goes First?</Text>
           <View style={styles.playerChoiceContainer}>
             <Pressable

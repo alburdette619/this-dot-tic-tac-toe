@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import { useCallback, useMemo } from "react";
 import {
   FlatList,
@@ -20,7 +19,6 @@ const baseThickness = 4;
 export const TicTacToeBoard = () => {
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();
   const { board, currentPlayer, passTurn } = useTicTacToeStore();
-  const { navigate } = useNavigation();
 
   const { boardSize, cellSize, t, v1, v2, h1, h2 } = useMemo(() => {
     const boardSize = Math.min(screenWidth, screenHeight) * 0.9;
@@ -48,7 +46,7 @@ export const TicTacToeBoard = () => {
     ({ item, index }: ListRenderItemInfo<TicTacToeCellType>) => {
       return (
         <Pressable
-          disabled={currentPlayer !== "X"}
+          disabled={currentPlayer !== "X" || item !== null}
           onPress={() => handleCellPress(index)}
           style={[
             styles.cell,

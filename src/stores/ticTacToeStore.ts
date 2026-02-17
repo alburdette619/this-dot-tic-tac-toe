@@ -14,15 +14,18 @@ interface TicTacToeState {
 }
 
 interface TicTacToeFunctions {
+  makeAiMove: () => void;
   passTurn: () => void;
   resetStore: () => void;
-  setCurrentPlayer: (player: TicTacToePlayerSymbol) => void;
+  startGame: (player: TicTacToePlayerSymbol) => void;
 }
 
 export interface TicTacToeStore extends TicTacToeState, TicTacToeFunctions {}
 
+const getNewBoard = (): TicTacToeBoardType => Array(9).fill(null);
+
 const defaultState: TicTacToeState = {
-  board: Array(9).fill(null),
+  board: getNewBoard(),
   currentPlayer: null,
   winner: null,
   isDraw: false,
@@ -30,6 +33,21 @@ const defaultState: TicTacToeState = {
 
 export const useTicTacToeStore = create<TicTacToeStore>((set, get) => ({
   ...defaultState,
+  makeAiMove: () => {
+    const { board } = get();
+    const aiMove = getBestMove(board);
+
+    console.log("AI Move:", aiMove, board);
+    if (aiMove !== null) {
+      set((state) => {
+        const newBoard = [...state.board];
+        newBoard[aiMove] = "O";
+        return { board: newBoard };
+      });
+
+      get().passTurn();
+    }
+  },
   passTurn: () => {
     // Determine if the game has been won or drawn before passing the turn to the next player.
     const { board, currentPlayer } = get();
@@ -44,15 +62,14 @@ export const useTicTacToeStore = create<TicTacToeStore>((set, get) => ({
         return { currentPlayer: nextPlayer };
       });
 
-      const aiMove = getBestMove(board);
-      set((state) => {
-        const newBoard = [...state.board];
-        newBoard[aiMove!] = nextPlayer;
-        return { board: newBoard };
-      });
+      if (nextPlayer === "O") {
+        get().makeAiMove();
+      }
     }
   },
-  resetStore: () => set({ ...defaultState }),
-  setCurrentPlayer: (player: TicTacToePlayerSymbol) =>
-    set({ currentPlayer: player }),
+  // TODO: We shouldn't need the call to `getNewBoard`, but we're currently mutating the board directly
+  // in the `TicTacToeBoard` component, so we need to ensure that we're resetting to a new array
+  // reference here to trigger re-renders.
+  resetStore: () => set({ ...defaultState, board: getNewBoard() }),
+  startGame: (player: TicTacToePlayerSymbol) => set({ currentPlayer: player }),
 }));

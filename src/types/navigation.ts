@@ -1,8 +1,6 @@
 export type RootStackParamList = {
   TicTacToe: undefined;
-  GameResult: {
-    result: "win" | "lose" | "draw";
-  };
+  GameResult: undefined;
 };
 
 declare global {

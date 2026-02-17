@@ -1,40 +1,35 @@
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
 import { useCallback, useMemo } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { useTicTacToeStore } from "../stores/ticTacToeStore";
 import { cardStyles } from "../styles/cards";
-import { RootStackParamList } from "../types/navigation";
-
-type DetailsScreenRouteProp = RouteProp<RootStackParamList, "GameResult">;
 
 export const GameResult = () => {
-  const { params } = useRoute<DetailsScreenRouteProp>();
   const { goBack } = useNavigation();
 
-  const { resetStore } = useTicTacToeStore();
+  const { isDraw, resetStore, winner } = useTicTacToeStore();
 
   const { animation, resultText } = useMemo(() => {
-    switch (params?.result) {
-      case "win":
-        return {
-          animation: require("../../assets/lottie/you-win.json"),
-          resultText: "You Win!",
-        };
-      case "draw":
-        return {
-          animation: require("../../assets/lottie/draw.json"),
-          resultText: "It's a Draw!",
-        };
-      case "lose":
-      default:
-        return {
-          animation: require("../../assets/lottie/game-over.json"),
-          resultText: "You Lose!",
-        };
+    if (isDraw) {
+      return {
+        animation: require("../../assets/lottie/draw.json"),
+        resultText: "It's a Draw!",
+      };
+    } else {
+      return winner === "X"
+        ? {
+            animation: require("../../assets/lottie/you-win.json"),
+            resultText:
+              "You Win! (this should have been impossible... congrats I guess?)",
+          }
+        : {
+            animation: require("../../assets/lottie/game-over.json"),
+            resultText: "You Lose!",
+          };
     }
-  }, [params?.result]);
+  }, [isDraw, winner]);
 
   const handlePlayAgain = useCallback(() => {
     resetStore();
@@ -47,7 +42,7 @@ export const GameResult = () => {
         <LottieView
           source={animation}
           autoPlay
-          loop={params?.result === "draw"}
+          loop={isDraw}
           style={styles.resultAnimation}
         />
         <Text style={styles.resultText}>{resultText}</Text>
