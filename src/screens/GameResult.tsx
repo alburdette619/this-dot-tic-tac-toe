@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
 import { useCallback, useMemo } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useTicTacToeStore } from "../stores/ticTacToeStore";
 import { cardStyles } from "../styles/cards";
@@ -37,7 +38,7 @@ export const GameResult = () => {
   }, [resetStore, goBack]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.resultContainer}>
         <LottieView
           source={animation}
@@ -53,7 +54,7 @@ export const GameResult = () => {
       >
         <Text style={styles.playAgainText}>Play Again!</Text>
       </Pressable>
-    </View>
+    </SafeAreaView>
   );
 };
 

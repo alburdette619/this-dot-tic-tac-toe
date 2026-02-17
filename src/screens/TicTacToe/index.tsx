@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, { FadeOut } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { scheduleOnRN } from "react-native-worklets";
 
 import { useTicTacToeStore } from "../../stores/ticTacToeStore";
@@ -53,7 +54,7 @@ export const TicTacToe = () => {
   }, [isDraw, navigate, winner]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {currentPlayer === null ? (
         // Handle Ai first move AFTER the fade out animation completes to avoid
         // the first 'O' move appearing before the player choice fades out.
@@ -81,7 +82,7 @@ export const TicTacToe = () => {
       ) : (
         <TicTacToeBoard />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
