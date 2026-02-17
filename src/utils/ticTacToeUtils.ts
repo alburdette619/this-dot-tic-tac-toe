@@ -18,7 +18,7 @@ const OPTIMAL_FIRST_MOVES = [0, 2, 4, 6, 8];
 
 export const getWinner = (
   board: TicTacToeBoardType,
-): TicTacToePlayerSymbol | null => {
+): null | TicTacToePlayerSymbol => {
   for (const [a, b, c] of WIN_LINES) {
     const v = board[a];
 
@@ -49,21 +49,21 @@ const miniMax = (
   movesAhead: number,
   aiSymbol: TicTacToePlayerSymbol = "O",
   humanSymbol: TicTacToePlayerSymbol = "X",
-): { score: number; move: number | null } => {
+): { move: null | number; score: number } => {
   const boardCopy = [...board];
 
   const winner = getWinner(boardCopy);
-  if (winner === aiSymbol) return { score: 10 - movesAhead, move: null };
-  if (winner === humanSymbol) return { score: movesAhead - 10, move: null };
-  if (boardCopy.every((c) => c !== null)) return { score: 0, move: null };
+  if (winner === aiSymbol) return { move: null, score: 10 - movesAhead };
+  if (winner === humanSymbol) return { move: null, score: movesAhead - 10 };
+  if (boardCopy.every((c) => c !== null)) return { move: null, score: 0 };
 
   const moves = availableMoves(boardCopy);
 
   // AI tries to maximize score; human tries to minimize score.
   let best =
     turn === aiSymbol
-      ? { score: -Infinity, move: null as number | null }
-      : { score: Infinity, move: null as number | null };
+      ? { move: null as null | number, score: -Infinity }
+      : { move: null as null | number, score: Infinity };
 
   moves.forEach((m) => {
     boardCopy[m] = turn;
@@ -77,9 +77,9 @@ const miniMax = (
     boardCopy[m] = null;
 
     if (turn === aiSymbol) {
-      if (next.score > best.score) best = { score: next.score, move: m };
+      if (next.score > best.score) best = { move: m, score: next.score };
     } else {
-      if (next.score < best.score) best = { score: next.score, move: m };
+      if (next.score < best.score) best = { move: m, score: next.score };
     }
   });
 
@@ -90,7 +90,7 @@ export const getBestMove = (
   board: TicTacToeBoardType,
   ai: TicTacToePlayerSymbol = "O",
   human: TicTacToePlayerSymbol = "X",
-): number | null => {
+): null | number => {
   // If the board is empty, just take the middle. No need to run the minimax algorithm.
   if (board.every((c) => c === null))
     return OPTIMAL_FIRST_MOVES[

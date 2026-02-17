@@ -1,17 +1,12 @@
 import { create } from "zustand";
 
 import {
-  TicTacToePlayerSymbol,
   TicTacToeBoardType,
+  TicTacToePlayerSymbol,
 } from "../types/ticTacToeTypes";
 import { getBestMove, getWinner, isDraw } from "../utils/ticTacToeUtils";
 
-interface TicTacToeState {
-  board: TicTacToeBoardType;
-  currentPlayer: TicTacToePlayerSymbol | null;
-  winner: TicTacToePlayerSymbol | null;
-  isDraw: boolean;
-}
+export interface TicTacToeStore extends TicTacToeFunctions, TicTacToeState {}
 
 interface TicTacToeFunctions {
   makeAiMove: () => void;
@@ -20,15 +15,20 @@ interface TicTacToeFunctions {
   startGame: (player: TicTacToePlayerSymbol) => void;
 }
 
-export interface TicTacToeStore extends TicTacToeState, TicTacToeFunctions {}
+interface TicTacToeState {
+  board: TicTacToeBoardType;
+  currentPlayer: null | TicTacToePlayerSymbol;
+  isDraw: boolean;
+  winner: null | TicTacToePlayerSymbol;
+}
 
 const getNewBoard = (): TicTacToeBoardType => Array(9).fill(null);
 
 const defaultState: TicTacToeState = {
   board: getNewBoard(),
   currentPlayer: null,
-  winner: null,
   isDraw: false,
+  winner: null,
 };
 
 export const useTicTacToeStore = create<TicTacToeStore>((set, get) => ({
@@ -54,7 +54,7 @@ export const useTicTacToeStore = create<TicTacToeStore>((set, get) => ({
     const draw = isDraw(board);
     const nextPlayer = currentPlayer === "X" ? "O" : "X";
 
-    set({ winner, isDraw: draw });
+    set({ isDraw: draw, winner });
 
     if (!winner && !draw) {
       set(() => {

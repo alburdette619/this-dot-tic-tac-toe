@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import Animated, { StretchInY, StretchInX } from "react-native-reanimated";
+import Animated, { StretchInX, StretchInY } from "react-native-reanimated";
 
 export type LineType = "horizontal" | "vertical";
 

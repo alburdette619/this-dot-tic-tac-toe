@@ -1,5 +1,5 @@
-export type TicTacToePlayerSymbol = "X" | "O";
-
-export type TicTacToeCellType = TicTacToePlayerSymbol | null;
-
 export type TicTacToeBoardType = TicTacToeCellType[];
+
+export type TicTacToeCellType = null | TicTacToePlayerSymbol;
+
+export type TicTacToePlayerSymbol = "O" | "X";

@@ -12,7 +12,7 @@ import { TicTacToeBoard } from "./components/TicTacToeBoard";
 export const TicTacToe = () => {
   const { navigate } = useNavigation();
 
-  const { board, currentPlayer, winner, isDraw, startGame } =
+  const { board, currentPlayer, isDraw, startGame, winner } =
     useTicTacToeStore();
   const isFirstMove = board.every((cell) => cell === null);
 
@@ -31,7 +31,7 @@ export const TicTacToe = () => {
   }, [getState, isFirstMove]);
 
   const handleFirstPlayerChoice = useCallback(
-    (symbol: "X" | "O") => {
+    (symbol: "O" | "X") => {
       startGame(symbol);
     },
     [startGame],
@@ -64,15 +64,15 @@ export const TicTacToe = () => {
           <Text style={styles.playerChoiceText}>Who Goes First?</Text>
           <View style={styles.playerChoiceContainer}>
             <Pressable
-              style={[cardStyles.card, styles.playerChoicePressable]}
               onPress={() => handleFirstPlayerChoice("X")}
+              style={[cardStyles.card, styles.playerChoicePressable]}
             >
               <Text style={styles.playerChoiceText}>X</Text>
               <Text style={styles.playerIdentityText}>(Me)</Text>
             </Pressable>
             <Pressable
-              style={[cardStyles.card, styles.playerChoicePressable]}
               onPress={() => handleFirstPlayerChoice("O")}
+              style={[cardStyles.card, styles.playerChoicePressable]}
             >
               <Text style={styles.playerChoiceText}>O</Text>
               <Text style={styles.playerIdentityText}>(CPU)</Text>

@@ -17,10 +17,10 @@ const lineDelay = 80;
 const baseThickness = 4;
 
 export const TicTacToeBoard = () => {
-  const { width: screenWidth, height: screenHeight } = useWindowDimensions();
+  const { height: screenHeight, width: screenWidth } = useWindowDimensions();
   const { board, currentPlayer, passTurn } = useTicTacToeStore();
 
-  const { boardSize, cellSize, t, v1, v2, h1, h2 } = useMemo(() => {
+  const { boardSize, cellSize, h1, h2, t, v1, v2 } = useMemo(() => {
     const boardSize = Math.min(screenWidth, screenHeight) * 0.9;
     const t = Math.max(baseThickness, Math.round(boardSize / 180));
     const cellSize = boardSize / 3;
@@ -30,7 +30,7 @@ export const TicTacToeBoard = () => {
     const h1 = cellSize - t / 2;
     const h2 = cellSize * 2 - t / 2;
 
-    return { boardSize, cellSize, t, v1, v2, h1, h2 };
+    return { boardSize, cellSize, h1, h2, t, v1, v2 };
   }, [screenWidth, screenHeight]);
 
   const handleCellPress = useCallback(
@@ -43,7 +43,7 @@ export const TicTacToeBoard = () => {
   );
 
   const renderCell = useCallback(
-    ({ item, index }: ListRenderItemInfo<TicTacToeCellType>) => {
+    ({ index, item }: ListRenderItemInfo<TicTacToeCellType>) => {
       return (
         <Pressable
           disabled={currentPlayer !== "X" || item !== null}
@@ -64,7 +64,7 @@ export const TicTacToeBoard = () => {
   );
 
   return (
-    <View style={{ width: boardSize, height: boardSize }}>
+    <View style={{ height: boardSize, width: boardSize }}>
       <View pointerEvents="none" style={StyleSheet.absoluteFill}>
         <TicTacToeBoardLine
           boardSize={boardSize}
@@ -72,8 +72,8 @@ export const TicTacToeBoard = () => {
           thickness={t}
         />
         <TicTacToeBoardLine
-          delay={lineDelay}
           boardSize={boardSize}
+          delay={lineDelay}
           positionStart={v2}
           thickness={t}
         />

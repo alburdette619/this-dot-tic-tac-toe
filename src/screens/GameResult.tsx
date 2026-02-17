@@ -41,16 +41,16 @@ export const GameResult = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.resultContainer}>
         <LottieView
-          source={animation}
           autoPlay
           loop={isDraw}
+          source={animation}
           style={styles.resultAnimation}
         />
         <Text style={styles.resultText}>{resultText}</Text>
       </View>
       <Pressable
-        style={[cardStyles.card, styles.playAgainButton]}
         onPress={handlePlayAgain}
+        style={[cardStyles.card, styles.playAgainButton]}
       >
         <Text style={styles.playAgainText}>Play Again!</Text>
       </Pressable>

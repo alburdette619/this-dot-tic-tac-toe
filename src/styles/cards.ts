@@ -8,8 +8,8 @@ export const cardStyles = StyleSheet.create({
     elevation: 8,
     paddingHorizontal: 24,
     paddingVertical: 12,
+    shadowOffset: { height: 8, width: 8 },
     shadowOpacity: 0.75,
     shadowRadius: 17,
-    shadowOffset: { width: 8, height: 8 },
   },
 });
