@@ -43,7 +43,7 @@ To skip the pain of building locally, preview builds have been created through E
 **To install**
 
 - Download the app from the link above.
-- Search your phone's settings for "unknown apps" (you may have to briefly turn off "Advanced Protection").
+- Search your phone's settings for "unknown apps" (you may have to briefly turn off "Advanced Protection") and enable the installation.
 - Click on the app in your file explorer, let Android scan the app, and install.
 - Open and enjoy!
 
