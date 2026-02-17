@@ -7,12 +7,13 @@ import { scheduleOnRN } from "react-native-worklets";
 
 import { useTicTacToeStore } from "../../stores/ticTacToeStore";
 import { cardStyles } from "../../styles/cards";
+import { Colors } from "../../styles/colors";
 import { TicTacToeBoard } from "./components/TicTacToeBoard";
 
 export const TicTacToe = () => {
   const { navigate } = useNavigation();
 
-  const { board, currentPlayer, isDraw, startGame, winner } =
+  const { board, currentPlayer, gameFinished, isDraw, startGame, winner } =
     useTicTacToeStore();
   const isFirstMove = board.every((cell) => cell === null);
 
@@ -48,10 +49,13 @@ export const TicTacToe = () => {
   );
 
   useEffect(() => {
-    if (winner || isDraw) {
-      navigate("GameResult");
+    if (isDraw || (winner && gameFinished)) {
+      // Give the user a moment to see the game finalized before navigating to the GameResult screen.
+      setTimeout(() => {
+        navigate("GameResult");
+      }, 500);
     }
-  }, [isDraw, navigate, winner]);
+  }, [gameFinished, isDraw, navigate, winner]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -89,7 +93,7 @@ export const TicTacToe = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: "#735AFE",
+    backgroundColor: Colors.primary,
     flex: 1,
     justifyContent: "center",
   },

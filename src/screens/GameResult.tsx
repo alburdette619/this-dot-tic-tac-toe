@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useTicTacToeStore } from "../stores/ticTacToeStore";
 import { cardStyles } from "../styles/cards";
+import { Colors } from "../styles/colors";
 
 export const GameResult = () => {
   const { goBack } = useNavigation();
@@ -60,7 +61,7 @@ export const GameResult = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#735AFE",
+    backgroundColor: Colors.primary,
     flex: 1,
     justifyContent: "space-between",
     padding: 24,

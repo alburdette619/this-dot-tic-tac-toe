@@ -12,13 +12,15 @@ import {
 import { useTicTacToeStore } from "../../../stores/ticTacToeStore";
 import { TicTacToeCellType } from "../../../types/ticTacToeTypes";
 import { TicTacToeBoardLine } from "./TicTacToeBoardLine";
+import { TicTacToeWinningStrike } from "./TicTacToeWinningLine";
 
 const lineDelay = 80;
 const baseThickness = 4;
 
 export const TicTacToeBoard = () => {
   const { height: screenHeight, width: screenWidth } = useWindowDimensions();
-  const { board, currentPlayer, passTurn } = useTicTacToeStore();
+  const { board, currentPlayer, passTurn, winner, winningLine } =
+    useTicTacToeStore();
 
   const { boardSize, cellSize, h1, h2, t, v1, v2 } = useMemo(() => {
     const boardSize = Math.min(screenWidth, screenHeight) * 0.9;
@@ -100,6 +102,9 @@ export const TicTacToeBoard = () => {
         scrollEnabled={false}
         style={{ position: "absolute" }}
       />
+      {winner && winningLine && (
+        <TicTacToeWinningStrike boardSize={boardSize} thickness={t} />
+      )}
     </View>
   );
 };

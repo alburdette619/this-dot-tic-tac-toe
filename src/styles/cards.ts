@@ -1,9 +1,11 @@
 import { StyleSheet } from "react-native";
 
+import { Colors } from "./colors";
+
 export const cardStyles = StyleSheet.create({
   card: {
     alignItems: "center",
-    backgroundColor: "#C5D5EA",
+    backgroundColor: Colors.sky,
     borderRadius: 12,
     elevation: 8,
     paddingHorizontal: 24,

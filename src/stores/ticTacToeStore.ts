@@ -3,6 +3,7 @@ import { create } from "zustand";
 import {
   TicTacToeBoardType,
   TicTacToePlayerSymbol,
+  WinningLine,
 } from "../types/ticTacToeTypes";
 import { getBestMove, getWinner, isDraw } from "../utils/ticTacToeUtils";
 
@@ -12,14 +13,17 @@ interface TicTacToeFunctions {
   makeAiMove: () => void;
   passTurn: () => void;
   resetStore: () => void;
+  setGameFinished: (gameFinished: boolean) => void;
   startGame: (player: TicTacToePlayerSymbol) => void;
 }
 
 interface TicTacToeState {
   board: TicTacToeBoardType;
   currentPlayer: null | TicTacToePlayerSymbol;
+  gameFinished: boolean;
   isDraw: boolean;
   winner: null | TicTacToePlayerSymbol;
+  winningLine?: WinningLine;
 }
 
 const getNewBoard = (): TicTacToeBoardType => Array(9).fill(null);
@@ -27,8 +31,10 @@ const getNewBoard = (): TicTacToeBoardType => Array(9).fill(null);
 const defaultState: TicTacToeState = {
   board: getNewBoard(),
   currentPlayer: null,
+  gameFinished: false,
   isDraw: false,
   winner: null,
+  winningLine: undefined,
 };
 
 export const useTicTacToeStore = create<TicTacToeStore>((set, get) => ({
@@ -50,11 +56,11 @@ export const useTicTacToeStore = create<TicTacToeStore>((set, get) => ({
   passTurn: () => {
     // Determine if the game has been won or drawn before passing the turn to the next player.
     const { board, currentPlayer } = get();
-    const winner = getWinner(board);
+    const { line, winner } = getWinner(board) || {};
     const draw = isDraw(board);
     const nextPlayer = currentPlayer === "X" ? "O" : "X";
 
-    set({ isDraw: draw, winner });
+    set({ isDraw: draw, winner, winningLine: line });
 
     if (!winner && !draw) {
       set(() => {
@@ -70,5 +76,6 @@ export const useTicTacToeStore = create<TicTacToeStore>((set, get) => ({
   // in the `TicTacToeBoard` component, so we need to ensure that we're resetting to a new array
   // reference here to trigger re-renders.
   resetStore: () => set({ ...defaultState, board: getNewBoard() }),
+  setGameFinished: (gameFinished: boolean) => set({ gameFinished }),
   startGame: (player: TicTacToePlayerSymbol) => set({ currentPlayer: player }),
 }));
