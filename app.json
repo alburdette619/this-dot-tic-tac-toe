@@ -21,6 +21,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#735AFE"
       },
+      "backgroundColor": "#735AFE",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.alburdet619.ThisDotTicTacToe"
