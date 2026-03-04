@@ -1,7 +1,7 @@
 // eslint.config.mjs
 import cspellESLintPluginRecommended from "@cspell/eslint-plugin/recommended";
 import expoConfig from "eslint-config-expo/flat.js";
-import perfectionist from "eslint-plugin-perfectionist";
+import { configs as perfectionistConfigs } from "eslint-plugin-perfectionist";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import { defineConfig } from "eslint/config";
 
@@ -14,7 +14,7 @@ const cspellConfigUrl = new URL(
 export default defineConfig([
   expoConfig,
   cspellESLintPluginRecommended,
-  perfectionist.configs["recommended-natural"],
+  perfectionistConfigs["recommended-natural"],
   {
     ignores: ["dist/*"],
     rules: {
