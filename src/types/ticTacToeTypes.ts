@@ -1,6 +1,6 @@
 export interface HistoryType {
   result: WinCondition;
-  timestamp: Date;
+  timestamp: number;
 }
 
 export type TicTacToeBoardType = TicTacToeCellType[];

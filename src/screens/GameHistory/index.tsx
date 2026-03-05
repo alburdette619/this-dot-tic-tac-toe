@@ -18,7 +18,10 @@ export const GameHistory = () => {
 
   const renderHistoryItem = useCallback(
     ({ item }: ListRenderItemInfo<HistoryType>) => {
-      const formattedTimestamp = format(item.timestamp, "MMM do, yyyy h:mm aa");
+      const formattedTimestamp = format(
+        new Date(item.timestamp),
+        "MMM do, yyyy h:mm aa",
+      );
 
       return (
         <View style={styles.historyItemContainer}>
@@ -36,7 +39,7 @@ export const GameHistory = () => {
         alwaysBounceVertical={false}
         data={history}
         keyExtractor={(item) =>
-          `${item.result}_${item.timestamp.toISOString()}`
+          `${item.result}_${new Date(item.timestamp).toISOString()}`
         }
         renderItem={renderHistoryItem}
       />

@@ -53,7 +53,7 @@ export const GameResult = () => {
         />
         <Text style={styles.resultText}>{resultText}</Text>
       </View>
-      <View>
+      <View style={styles.ctaContainer}>
         <Pressable
           onPress={handleShowGameHistory}
           style={[cardStyles.card, styles.playAgainButton]}
@@ -77,6 +77,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     padding: 24,
+  },
+  ctaContainer: {
+    gap: 16,
   },
   playAgainButton: {
     height: 100,
