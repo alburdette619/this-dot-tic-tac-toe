@@ -81,22 +81,24 @@ export const TicTacToe = () => {
           exiting={FadeOut.withCallback(handlePlayerChoiceFadeOut)}
           style={styles.pregameContainer}
         >
-          <Text style={styles.playerChoiceText}>Who Goes First?</Text>
           <View style={styles.playerChoiceContainer}>
-            <Pressable
-              onPress={() => handleFirstPlayerChoice("X")}
-              style={[cardStyles.card, styles.playerChoicePressable]}
-            >
-              <Text style={styles.playerChoiceText}>X</Text>
-              <Text style={styles.playerIdentityText}>(Me)</Text>
-            </Pressable>
-            <Pressable
-              onPress={() => handleFirstPlayerChoice("O")}
-              style={[cardStyles.card, styles.playerChoicePressable]}
-            >
-              <Text style={styles.playerChoiceText}>O</Text>
-              <Text style={styles.playerIdentityText}>(CPU)</Text>
-            </Pressable>
+            <Text style={styles.playerChoiceText}>Who Goes First?</Text>
+            <View style={styles.playerChoiceButtonsContainer}>
+              <Pressable
+                onPress={() => handleFirstPlayerChoice("X")}
+                style={[cardStyles.card, styles.playerChoicePressable]}
+              >
+                <Text style={styles.playerChoiceText}>X</Text>
+                <Text style={styles.playerIdentityText}>(Me)</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => handleFirstPlayerChoice("O")}
+                style={[cardStyles.card, styles.playerChoicePressable]}
+              >
+                <Text style={styles.playerChoiceText}>O</Text>
+                <Text style={styles.playerIdentityText}>(CPU)</Text>
+              </Pressable>
+            </View>
           </View>
           <Pressable onPress={handleShowGameHistory} style={[cardStyles.card]}>
             <Text>History</Text>
@@ -116,10 +118,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  playerChoiceContainer: {
+  playerChoiceButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 36,
+  },
+  playerChoiceContainer: {
+    marginTop: "50%",
   },
   playerChoicePressable: {
     minWidth: "33%",
