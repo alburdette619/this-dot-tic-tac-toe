@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ThisDotTicTacToe",
-    "slug": "ThisDotTicTacToe",
+    "name": "TicTacToe",
+    "slug": "TicTacToe",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.alburdet619.ThisDotTicTacToe",
+      "bundleIdentifier": "com.alburdet619.TicTacToe",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -27,7 +27,7 @@
       "backgroundColor": "#735AFE",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.alburdet619.ThisDotTicTacToe"
+      "package": "com.alburdet619.TicTacToe"
     },
     "web": {
       "favicon": "./assets/favicon.png"
