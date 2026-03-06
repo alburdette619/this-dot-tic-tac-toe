@@ -1,6 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
-import { useCallback, useEffect } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import {
+  Platform,
+  Pressable,
+  StyleSheet,
+  Switch,
+  Text,
+  View,
+} from "react-native";
 import Animated, { FadeOut } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { scheduleOnRN } from "react-native-worklets";
@@ -15,10 +22,18 @@ import { TicTacToeBoard } from "./components/TicTacToeBoard";
 export const TicTacToe = () => {
   const { navigate } = useNavigation();
 
-  const { board, currentPlayer, gameFinished, isDraw, startGame, winner } =
-    useTicTacToeStore();
+  const {
+    board,
+    currentPlayer,
+    gameFinished,
+    gameMode,
+    isDraw,
+    startGame,
+    winner,
+  } = useTicTacToeStore();
   const { addItem } = useHistoryStore();
   const isFirstMove = board.every((cell) => cell === null);
+  const [difficultySwitchValue, setDifficultySwitchValue] = useState(true);
 
   // We need to access the store state in the `maybeAiFirstMove` worklet, but worklets capture,
   // so we need to get the state in the component scope and then reference it in the worklet.
@@ -36,9 +51,9 @@ export const TicTacToe = () => {
 
   const handleFirstPlayerChoice = useCallback(
     (symbol: "O" | "X") => {
-      startGame(symbol);
+      startGame(symbol, difficultySwitchValue ? "Hard" : "Easy");
     },
-    [startGame],
+    [startGame, difficultySwitchValue],
   );
 
   const handlePlayerChoiceFadeOut = useCallback(
@@ -100,6 +115,27 @@ export const TicTacToe = () => {
               </Pressable>
             </View>
           </View>
+          <View style={styles.difficultyContainer}>
+            <Text style={styles.difficultyText}>Difficulty:</Text>
+            <View style={styles.difficultySwitchContainer}>
+              <Switch
+                ios_backgroundColor={Colors.gold}
+                onValueChange={setDifficultySwitchValue}
+                thumbColor={
+                  Platform.OS === "ios"
+                    ? undefined
+                    : difficultySwitchValue
+                      ? Colors.gold
+                      : Colors.sky
+                }
+                trackColor={{ false: Colors.sky, true: Colors.gold }}
+                value={difficultySwitchValue}
+              />
+              <Text style={styles.difficultyText}>
+                ({difficultySwitchValue ? "Hard" : "Easy"})
+              </Text>
+            </View>
+          </View>
           <Pressable onPress={handleShowGameHistory} style={[cardStyles.card]}>
             <Text>History</Text>
           </Pressable>
@@ -117,6 +153,21 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     flex: 1,
     justifyContent: "center",
+  },
+  difficultyContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 36,
+  },
+  difficultySwitchContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 8,
+    marginLeft: 12,
+  },
+  difficultyText: {
+    fontSize: 24,
   },
   playerChoiceButtonsContainer: {
     flexDirection: "row",

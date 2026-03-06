@@ -1,26 +1,28 @@
 import { create } from "zustand";
 
 import {
+  GameMode,
   TicTacToeBoardType,
   TicTacToePlayerSymbol,
   WinningLine,
 } from "../types/ticTacToeTypes";
 import { getBestMove, getWinner, isDraw } from "../utils/ticTacToeUtils";
 
-export interface TicTacToeStore extends TicTacToeFunctions, TicTacToeState {}
+export interface TicTacToeStore extends TicTacToeFunctions, TicTacToeState { }
 
 interface TicTacToeFunctions {
   makeAiMove: () => void;
   passTurn: () => void;
   resetStore: () => void;
   setGameFinished: (gameFinished: boolean) => void;
-  startGame: (player: TicTacToePlayerSymbol) => void;
+  startGame: (player: TicTacToePlayerSymbol, gameMode: GameMode) => void;
 }
 
 interface TicTacToeState {
   board: TicTacToeBoardType;
   currentPlayer: null | TicTacToePlayerSymbol;
   gameFinished: boolean;
+  gameMode: GameMode;
   isDraw: boolean;
   winner: null | TicTacToePlayerSymbol;
   winningLine?: WinningLine;
@@ -32,6 +34,7 @@ const defaultState: TicTacToeState = {
   board: getNewBoard(),
   currentPlayer: null,
   gameFinished: false,
+  gameMode: "Hard",
   isDraw: false,
   winner: null,
   winningLine: undefined,
@@ -78,7 +81,9 @@ export const useTicTacToeStore = create<TicTacToeStore>((set, get) => {
     // reference here to trigger re-renders.
     resetStore: () => set({ ...defaultState, board: getNewBoard() }),
     setGameFinished: (gameFinished: boolean) => set({ gameFinished }),
-    startGame: (player: TicTacToePlayerSymbol) =>
-      set({ currentPlayer: player }),
+    startGame: (
+      player: TicTacToePlayerSymbol,
+      gameMode: GameMode = defaultState.gameMode,
+    ) => set({ currentPlayer: player, gameMode }),
   };
 });

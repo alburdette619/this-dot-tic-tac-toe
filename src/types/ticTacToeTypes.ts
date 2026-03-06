@@ -1,3 +1,5 @@
+export type GameMode = "Easy" | "Hard";
+
 export interface HistoryType {
   result: WinCondition;
   timestamp: number;
